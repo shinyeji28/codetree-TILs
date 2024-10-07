@@ -145,7 +145,7 @@ public class Main {
                 int ny = cy + dy[d];
                 if(nx<0||ny<0||nx>=R+2||ny>=C|| visited[nx][ny])continue;
 
-                if(map[cx][cy]<0 || map[cx][cy] == map[nx][ny] || map[cx][cy] * (-1) == map[nx][ny]){
+                if(map[cx][cy]<0 || map[cx][cy] == map[nx][ny] || map[cx][cy] == map[nx][ny]* (-1)){
                     visited[nx][ny] = true;
                     q.offer(new int[]{nx,ny});
                 }
