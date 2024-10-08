@@ -21,8 +21,8 @@ public class Main {
         R = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
-        map = new int[R+2][C];           // 1~k 골렘 존재, -1 탈출구
-        visited = new boolean[R+2][C];
+        map = new int[R+3][C];           // 1~k 골렘 존재, -1 탈출구
+        visited = new boolean[R+3][C];
         for(int i=0;i<k;i++){
             st = new StringTokenizer(br.readLine());
             int ci = Integer.parseInt(st.nextToken())-1;
@@ -48,15 +48,15 @@ public class Main {
         };
         int[][] ry = new int[][]{
             {-1,0,1},
-            {1,2,1},
-            {-1,-2,-1}
+            {-1,-2,-1},
+            {1,2,1}
         };
 
         // 다음 중심 좌표
         int[] cx = new int[]{1,0,0};  // 남 서 동
-        int[] cy = new int[]{0,1,-1};
+        int[] cy = new int[]{0,-1,1};
 
-        int x=0;
+        int x=1;
         int y=c;
         int maxCenter = x;
         for(int dire = 0;dire<3;dire++){  
@@ -65,7 +65,7 @@ public class Main {
                 for(i=0;i<3;i++){
                     int nx = x + rx[dire][i];
                     int ny = y + ry[dire][i];
-                    if(nx<0||ny<0||nx>=R+2||ny>=C || map[nx][ny]!=0) break A;
+                    if(nx<0||ny<0||nx>=R+3||ny>=C || map[nx][ny]!=0) break A;
                 }
                 if(i == 3){ // 이동 가능 중심 좌표 갱신
                     int[] pos = goDown(x + cx[dire], y + cy[dire]);
@@ -74,10 +74,10 @@ public class Main {
                         
                         x = pos[0];
                         y = pos[1];
-                        if(dire == 1){ // 서 왼쪽 회전
-                            d = (d + 1) % 4;
-                        }else if(dire == 2){  // 동 오른쪽 회전
+                        if(dire == 1){ // 서 반시계 회전
                             d = (d + 3) % 4;
+                        }else if(dire == 2){  // 동 시계 회전
+                            d = (d + 1) % 4;
                         }
                     }else{
                         break A;
@@ -87,9 +87,9 @@ public class Main {
             }
             
         }
-        // 골렘이 5p가 모두 <= 2 면 회전할 필요없이 초기화
+        // 골렘이 5p가 모두 <= 3 면 회전할 필요없이 초기화
         if(x <= 2){
-            map = new int[R+2][C];
+            map = new int[R+3][C];
             return;
         }
         // 골렘이 더 이상 이동하지 못함
@@ -97,6 +97,7 @@ public class Main {
             map[x+dx[i]][y+dy[i]] = (d==i)? k*(-1) : k;
         }
         map[x][y] = k;
+        // System.out.println(Arrays.deepToString(map));
         working(x, y); // 정령을 최하단으로 이동
     }
 
@@ -109,7 +110,7 @@ public class Main {
             for(i=0;i<3;i++){
                 int nx = x + dx[i];
                 int ny = y + dy[i];
-                if(nx<0||ny<0||nx>=R+2||ny>=C || map[nx][ny]!=0) break A;
+                if(nx<0||ny<0||nx>=R+3||ny>=C || map[nx][ny]!=0) break A;
             }
             if(i == 3){ // 이동 가능 중심 좌표 갱신
                 x = x + dx[1]-1;
@@ -122,7 +123,7 @@ public class Main {
     public static void working(int x, int y){  // 정렬 최하단 칸으로 이동
         
         Queue<int[]> q = new ArrayDeque<>();
-        boolean[][] visited = new boolean[R+2][C];
+        boolean[][] visited = new boolean[R+3][C];
         int r = x;
 
         int[] dx = new int[]{-1,0,1,0};
@@ -135,7 +136,7 @@ public class Main {
             int[] pos = q.poll();
             int cx = pos[0];
             int cy = pos[1];
-            if(cx == R+2){
+            if(cx == R+3){
                 r = cx;
                 break;
             }
@@ -143,7 +144,7 @@ public class Main {
             for(int d=0;d<4;d++){
                 int nx = cx + dx[d];
                 int ny = cy + dy[d];
-                if(nx<0||ny<0||nx>=R+2||ny>=C|| visited[nx][ny] || map[nx][ny]==0)continue;
+                if(nx<0||ny<0||nx>=R+3||ny>=C|| visited[nx][ny] || map[nx][ny]==0)continue;
 
                 if(map[cx][cy]<0 || map[cx][cy] == map[nx][ny] || map[cx][cy] == map[nx][ny]* (-1)){
                     visited[nx][ny] = true;
@@ -151,7 +152,6 @@ public class Main {
                 }
             }
         }
-       
-        result += (r-1);
+        result += (r-2);
     }
 }
