@@ -88,7 +88,7 @@ public class Main {
             
         }
         // 골렘이 5p가 모두 <= 3 면 회전할 필요없이 초기화
-        if(x <= 2){
+        if(x <= 3){
             map = new int[R+3][C];
             return;
         }
@@ -97,7 +97,6 @@ public class Main {
             map[x+dx[i]][y+dy[i]] = (d==i)? k*(-1) : k;
         }
         map[x][y] = k;
-        // System.out.println(Arrays.deepToString(map));
         working(x, y); // 정령을 최하단으로 이동
     }
 
