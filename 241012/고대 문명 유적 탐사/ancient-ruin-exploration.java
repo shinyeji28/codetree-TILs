@@ -38,7 +38,6 @@ public class Main {
             sb.append(r+" ");
         }
         System.out.println(sb);
-
     }
 
     public static void detect(int k){
@@ -46,12 +45,6 @@ public class Main {
         for(int kk=0;kk<k;kk++){
             int sum = 0; // 해당 턴의 가치 합
             int value = 0;  // 리턴 값
-            // value = detectAndGetValue();
-            // if(value == 0){
-            //     if(sum!=0)result.add(sum);
-            //     return;
-            // }
-            // sum += value;
             value = detectAndGetValue();
             if(value==0)return;
             result.add(value);
@@ -71,10 +64,11 @@ public class Main {
 
         for(int i=1;i<SIZE-1;i++){
             for(int j=1;j<SIZE-1;j++){
-                copyMap(map, originMap); // 배열 복사 
 
                 for(int rNum=0;rNum<3;rNum++){
-                    rotation(i,j);
+                    copyMap(map, originMap); // 배열 복사 
+
+                    rotation(i,j, rNum);
                     int v = getValue(map);   // 임시 유물 획득
                     if(v > maxValue){    // 1. 가치 큰것
                         isNew = true;
@@ -100,6 +94,7 @@ public class Main {
                 }
             }
         }
+        if(maxValue == 0)return 0;
 
         // 연쇄 유물 획득
         copyMap(originMap, maxValueMap);
@@ -109,13 +104,12 @@ public class Main {
             int re = fillThePieces(originMap);
             if(re==0)break;
             maxValue += re;
+
         }
 
         return maxValue;
     }
     public static int fillThePieces(int[][] m){
-
-        // originMap 사용
         // 채우기
         A: for(int j=0;j<SIZE;j++){
             for(int i=SIZE-1;i>=0;i--){
@@ -137,34 +131,38 @@ public class Main {
     }
     
     // 중심좌표를 기준으로 회전하기 90도
-    public static void rotation(int x,int y){
+    public static void rotation(int x,int y, int rd){
         int[] dx1 = new int[]{-1,-1,1,1,-1}; 
         int[] dy1 = new int[]{-1,1,1,-1,-1};
         int[] dx2 = new int[]{-1,0,1,0,-1};
         int[] dy2 = new int[]{0,1,0,-1,0}; 
+  
+        for(int r = 0;r <=rd;r++){
+            int prev = map[x + dx1[0]][y + dy1[0]];
+            for(int i=0;i<5;i++){
+                int temp = prev;
+                prev = map[x + dx1[i]][y + dy1[i]];
+                map[x + dx1[i]][y + dy1[i]] = temp; 
+            }
 
-        int prev = map[x + dx1[0]][y + dy1[0]];
-        for(int i=0;i<5;i++){
-            int temp = prev;
-            prev = map[x + dx1[i]][y + dy1[i]];
-            map[x + dx1[i]][y + dy1[i]] = temp; 
+            prev = map[x + dx2[0]][y + dy2[0]];
+            for(int i=0;i<5;i++){
+                int temp = prev;
+                prev = map[x + dx2[i]][y + dy2[i]];
+                map[x + dx2[i]][y + dy2[i]] = temp; 
+            }
         }
-
-        prev = map[x + dx2[0]][y + dy2[0]];
-        for(int i=0;i<5;i++){
-            int temp = prev;
-            prev = map[x + dx2[i]][y + dy2[i]];
-            map[x + dx2[i]][y + dy2[i]] = temp; 
-        }
+  
         
     }
     // 유물 획득
     public static int getValue(int[][] m){
+
         visited = new boolean[SIZE][SIZE];
         int sum = 0;
         for(int i=0;i<SIZE;i++){
             for(int j=0;j<SIZE;j++){
-                if(visited[i][j]||map[i][j]==0)continue;
+                if(visited[i][j]||m[i][j]==0)continue;
                 sum += bfs(i,j, m); 
             }
         }
