@@ -44,7 +44,15 @@ public class Main {
     public static void detect(int k){
 
         for(int kk=0;kk<k;kk++){
-            int value = detectAndGetValue();
+            int sum = 0; // 해당 턴의 가치 합
+            int value = 0;  // 리턴 값
+            // value = detectAndGetValue();
+            // if(value == 0){
+            //     if(sum!=0)result.add(sum);
+            //     return;
+            // }
+            // sum += value;
+            value = detectAndGetValue();
             if(value==0)return;
             result.add(value);
         }
@@ -63,13 +71,11 @@ public class Main {
 
         for(int i=1;i<SIZE-1;i++){
             for(int j=1;j<SIZE-1;j++){
-
                 copyMap(map, originMap); // 배열 복사 
 
                 for(int rNum=0;rNum<3;rNum++){
                     rotation(i,j);
                     int v = getValue(map);   // 임시 유물 획득
-
                     if(v > maxValue){    // 1. 가치 큰것
                         isNew = true;
                     }else if(v == maxValue){  
@@ -103,7 +109,6 @@ public class Main {
             int re = fillThePieces(originMap);
             if(re==0)break;
             maxValue += re;
-
         }
 
         return maxValue;
@@ -138,18 +143,18 @@ public class Main {
         int[] dx2 = new int[]{-1,0,1,0,-1};
         int[] dy2 = new int[]{0,1,0,-1,0}; 
 
-        int prev = map[x + dx1[0]][x + dy1[0]];
+        int prev = map[x + dx1[0]][y + dy1[0]];
         for(int i=0;i<5;i++){
             int temp = prev;
-            prev = map[x + dx1[i]][x + dy1[i]];
-            map[x + dx1[i]][x + dy1[i]] = temp; 
+            prev = map[x + dx1[i]][y + dy1[i]];
+            map[x + dx1[i]][y + dy1[i]] = temp; 
         }
 
-        prev = map[x + dx2[0]][x + dy2[0]];
+        prev = map[x + dx2[0]][y + dy2[0]];
         for(int i=0;i<5;i++){
             int temp = prev;
-            prev = map[x + dx2[i]][x + dy2[i]];
-            map[x + dx2[i]][x + dy2[i]] = temp; 
+            prev = map[x + dx2[i]][y + dy2[i]];
+            map[x + dx2[i]][y + dy2[i]] = temp; 
         }
         
     }
