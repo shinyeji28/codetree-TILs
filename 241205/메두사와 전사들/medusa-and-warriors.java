@@ -87,7 +87,7 @@ public class Main {
             // 2. 메두사의 시선
             p2 += medusaGaze(x,y);
             
-$0
+
             // 3. 전사들의 이동
             int[] scores = movingArmys(x,y);
             p1 += scores[0];
