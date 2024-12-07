@@ -334,14 +334,13 @@ public class Main {
         int[] medusaRouteReverse = new int[n*n];
 
 
-        q.offer(new int[]{sx,sy,0});
+        q.offer(new int[]{sx,sy});
         distance[sx][sy] = 0;
 
         while(!q.isEmpty()){
             int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
-            int dist = cur[2];
             if(x == ex && y == ey){
                 reversePath(medusaRouteReverse,  sx, sy, ex, ey);
                 return true;
@@ -352,9 +351,9 @@ public class Main {
                 int nx = x + dx[d];
                 int ny = y + dy[d];
                 if(nx<0||ny<0||nx>=n||ny>=n || map[nx][ny] == 1 || visited[nx][ny]) continue;  // 도로가 아님
-                if(distance[nx][ny] > dist + 1){
-                    distance[nx][ny] = dist + 1;
-                    q.offer(new int[]{nx, ny, distance[nx][ny]});
+                if(distance[nx][ny] > distance[x][y] + 1){
+                    distance[nx][ny] = distance[x][y] + 1;
+                    q.offer(new int[]{nx, ny});
                     medusaRouteReverse[nx * n + ny] = x * n + y;
                 }  
                 
