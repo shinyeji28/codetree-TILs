@@ -89,14 +89,6 @@ public class Main {
             }
             // 2. 메두사의 시선
             p2 += medusaGaze(x,y);
-            
-            // for(int i=0;i<n;i++){
-            //     System.out.println(Arrays.toString(rocks[i]));
-            // }
-            // System.out.println("---전사---");
-            // for(int i=0;i<n;i++){
-            //     System.out.println(Arrays.toString(armyMap[i]));
-            // }
 
             // 3. 전사들의 이동
             int[] scores = movingArmys(x,y);
@@ -330,52 +322,7 @@ public class Main {
         return new int[]{nx, ny}; 
         
     }
-    // 출발지부터 도착지까지 도로가 이어지는 판단 (medusaRoute에 저장)
-    // public static boolean isAbleDestination(int sx, int sy,int ex, int ey){
 
-    //     PriorityQueue<int[]> q = new PriorityQueue<>((a,b)->{
-    //         if(a[2]!=b[2]) return Integer.compare(a[2],b[2]);
-    //         if(a[0]!=b[0]) return Integer.compare(a[0], b[0]);  
-    //         return Integer.compare(a[1], b[1]); 
-    //     });
-    //     boolean[][] visited = new boolean[n][n];
-    //     int[][] distance = new int[n][n];
-    //     for(int i=0;i<n;i++){
-    //         Arrays.fill(distance[i],Integer.MAX_VALUE);
-    //     }
-    //     int[] medusaRouteReverse = new int[n*n];
-
-
-    //     q.offer(new int[]{sx,sy,0});
-    //     distance[sx][sy] = 0;
-
-    //     while(!q.isEmpty()){
-    //         int[] cur = q.poll();
-    //         int x = cur[0];
-    //         int y = cur[1];
-    //         int dist = cur[2];
-    //         if(x == ex && y == ey){
-    //             reversePath(medusaRouteReverse,  sx, sy, ex, ey);
-    //             return true;
-    //         }
-    //         if(visited[x][y])continue;
-    //         visited[x][y] = true;
-    //         for(int d=0;d<dx.length;d++){
-    //             int nx = x + dx[d];
-    //             int ny = y + dy[d];
-    //             if(nx<0||ny<0||nx>=n||ny>=n || map[nx][ny] == 1 || visited[nx][ny]) continue;  // 도로가 아님
-    //             if(distance[nx][ny] > dist + 1){
-    //                 distance[nx][ny] = dist + 1;
-    //                 q.offer(new int[]{nx, ny, distance[nx][ny]});
-    //                 medusaRouteReverse[nx * n + ny] = x * n + y;
-    //             }  
-                
-    //         }
-    //     }
-        
-
-    //     return false;
-    // }
     public static boolean isAbleDestination(int sx, int sy,int ex, int ey){
 
         Queue<int[]> q = new ArrayDeque<>();
